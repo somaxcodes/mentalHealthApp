@@ -1,6 +1,9 @@
 package com.mentalhealth.service;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,8 +11,7 @@ import org.springframework.stereotype.Service;
 import com.mentalhealth.model.Illness;
 import com.mentalhealth.model.Symptom;
 import com.mentalhealth.repository.IllnessRepository;
-
-import jakarta.annotation.PostConstruct;
+import com.mentalhealth.repository.SymptomRepository;
 
 @Service
 public class SymptomCheckerService {
@@ -17,28 +19,30 @@ public class SymptomCheckerService {
     @Autowired
     private IllnessRepository illnessRepository;
 
-    @PostConstruct
-    public void init() {
-        // Initialize sample data if repository is empty
-        if (illnessRepository.count() == 0) {
-            illnessRepository.save(new Illness("Depression", List.of("sadness", "fatigue", "sleep problems")));
-            illnessRepository.save(new Illness("Anxiety", List.of("nervousness", "racing thoughts", "sweating")));
-            illnessRepository.save(new Illness("Panic Disorder", List.of("shortness of breath", "chest pain", "sweating")));
-        }
-    }
+    @Autowired
+    private SymptomRepository symptomRepository;
 
     public List<String> checkSymptoms(List<Symptom> symptoms) {
         List<String> probableIllnesses = new ArrayList<>();
         List<Illness> allIllnesses = illnessRepository.findAll();
+        Set<String> symptomNames = symptoms.stream()
+            .map(s -> s.getName().toLowerCase())
+            .collect(Collectors.toSet());
         
         for (Illness illness : allIllnesses) {
-            for (Symptom symptom : symptoms) {
-                if (illness.getSymptoms().contains(symptom.getName().toLowerCase())) {
-                    probableIllnesses.add(illness.getName());
-                    break;
-                }
+            long matchingSymptoms = illness.getSymptoms().stream()
+                .map(String::toLowerCase)
+                .filter(symptomNames::contains)
+                .count();
+            
+            if (matchingSymptoms >= 2) {
+                probableIllnesses.add(illness.getName() + " - " + illness.getDescription());
             }
         }
         return probableIllnesses;
     }
-} 
+
+    public List<Symptom> getAllSymptoms() {
+        return symptomRepository.findAll();
+    }
+}
