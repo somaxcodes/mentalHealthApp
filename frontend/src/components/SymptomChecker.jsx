@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import {
   Box,
+  Container,
   Typography,
   FormControl,
-  InputLabel,
   Select,
   MenuItem,
   Button,
@@ -13,15 +13,23 @@ import {
   List,
   ListItem,
   ListItemText,
+  CircularProgress,
+  Fade,
+  useTheme,
 } from '@mui/material';
+import MedicalServicesIcon from '@mui/icons-material/MedicalServices';
+import AddIcon from '@mui/icons-material/Add';
+import SearchIcon from '@mui/icons-material/Search';
 import axios from 'axios';
 
 const SymptomChecker = () => {
+  const theme = useTheme();
   const [availableSymptoms, setAvailableSymptoms] = useState([]);
   const [selectedSymptoms, setSelectedSymptoms] = useState([]);
   const [currentSymptom, setCurrentSymptom] = useState('');
   const [illnesses, setIllnesses] = useState([]);
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     fetchSymptoms();
@@ -33,7 +41,6 @@ const SymptomChecker = () => {
       setAvailableSymptoms(response.data);
     } catch (err) {
       setError('Failed to load symptoms. Please refresh the page.');
-      console.error('Error fetching symptoms:', err);
     }
   };
 
@@ -44,7 +51,7 @@ const SymptomChecker = () => {
   const handleAddSymptom = () => {
     if (currentSymptom && !selectedSymptoms.find(s => s.name === currentSymptom)) {
       if (selectedSymptoms.length >= 3) {
-        setError('Maximum 3 symptoms allowed. Please remove one first.');
+        setError('Maximum 3 symptoms allowed');
         return;
       }
       setSelectedSymptoms([...selectedSymptoms, { name: currentSymptom }]);
@@ -64,103 +71,217 @@ const SymptomChecker = () => {
       return;
     }
 
+    setLoading(true);
     try {
       const response = await axios.post('http://localhost:8080/api/symptom-checker/check', selectedSymptoms);
       setIllnesses(response.data);
       setError('');
     } catch (err) {
       setError(err.response?.data || 'Failed to check symptoms');
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <Paper elevation={3} sx={{ p: 4, maxWidth: 600, mx: 'auto', mt: 4 }}>
-      <Typography variant="h4" gutterBottom align="center" color="primary">
-        Mental Health Symptom Checker
-      </Typography>
-
-      <Typography variant="subtitle1" gutterBottom align="center" sx={{ mb: 3 }}>
-        Select exactly 3 symptoms ({selectedSymptoms.length}/3)
-      </Typography>
-
-      {error && (
-        <Alert severity="error" sx={{ mb: 3 }}>
-          {error}
-        </Alert>
-      )}
-
-      <FormControl fullWidth sx={{ mb: 2 }}>
-        <InputLabel>Select Symptom</InputLabel>
-        <Select
-          value={currentSymptom}
-          onChange={handleSymptomChange}
-          label="Select Symptom"
-          disabled={selectedSymptoms.length >= 3}
-        >
-          {availableSymptoms
-            .filter(symptom => !selectedSymptoms.find(s => s.name === symptom.name))
-            .map((symptom) => (
-              <MenuItem key={symptom.id} value={symptom.name}>
-                {symptom.name}
-              </MenuItem>
-            ))}
-        </Select>
-      </FormControl>
-
-      <Button
-        variant="contained"
-        onClick={handleAddSymptom}
-        disabled={!currentSymptom || selectedSymptoms.length >= 3}
-        fullWidth
-        sx={{ mb: 3 }}
+    <Container maxWidth="md">
+      <Paper 
+        elevation={6} 
+        sx={{ 
+          p: { xs: 3, md: 5 },
+          mt: 4,
+          borderRadius: 3,
+          background: 'linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%)',
+          boxShadow: '0 10px 40px rgba(0,0,0,0.1)'
+        }}
       >
-        Add Symptom
-      </Button>
-
-      <Box sx={{ mb: 3, minHeight: '100px' }}>
-        {selectedSymptoms.map((symptom) => (
-          <Chip
-            key={symptom.name}
-            label={symptom.name}
-            onDelete={() => handleRemoveSymptom(symptom.name)}
-            color="primary"
-            sx={{ m: 0.5 }}
+        <Box sx={{ textAlign: 'center', mb: 5 }}>
+          <MedicalServicesIcon 
+            sx={{ 
+              fontSize: 50, 
+              color: theme.palette.primary.main,
+              mb: 2 
+            }} 
           />
-        ))}
-      </Box>
-
-      <Button
-        variant="contained"
-        onClick={handleCheckSymptoms}
-        disabled={selectedSymptoms.length !== 3}
-        fullWidth
-        sx={{ mb: 3 }}
-      >
-        Check Possible Conditions
-      </Button>
-
-      {illnesses.length > 0 && (
-        <Box>
-          <Typography variant="h6" gutterBottom color="primary">
-            Possible Conditions:
+          <Typography 
+            variant="h3" 
+            sx={{
+              fontWeight: 700,
+              background: 'linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)',
+              backgroundClip: 'text',
+              textFillColor: 'transparent',
+              mb: 2
+            }}
+          >
+            Mental Health Checker
           </Typography>
-          <List>
-            {illnesses.map((illness, index) => (
-              <ListItem key={index} sx={{ bgcolor: '#f5f5f5', mb: 1, borderRadius: 1 }}>
-                <ListItemText
-                  primary={illness.split(' - ')[0]}
-                  secondary={illness.split(' - ')[1]}
-                  primaryTypographyProps={{
-                    fontWeight: 'medium',
-                    color: 'primary.main'
-                  }}
-                />
-              </ListItem>
-            ))}
-          </List>
+          <Typography variant="h6" color="text.secondary">
+            Select exactly 3 symptoms ({selectedSymptoms.length}/3)
+          </Typography>
         </Box>
-      )}
-    </Paper>
+
+        {error && (
+          <Fade in>
+            <Alert 
+              severity="error" 
+              sx={{ 
+                mb: 3,
+                borderRadius: 2
+              }}
+            >
+              {error}
+            </Alert>
+          </Fade>
+        )}
+
+        <Box sx={{ mb: 4 }}>
+          <FormControl fullWidth>
+            <Select
+              value={currentSymptom}
+              onChange={handleSymptomChange}
+              displayEmpty
+              disabled={selectedSymptoms.length >= 3}
+              sx={{
+                borderRadius: 2,
+                '& .MuiOutlinedInput-notchedOutline': {
+                  borderColor: 'rgba(0,0,0,0.1)'
+                }
+              }}
+            >
+              <MenuItem value="" disabled>
+                <Typography color="text.secondary">Select a symptom</Typography>
+              </MenuItem>
+              {availableSymptoms
+                .filter(symptom => !selectedSymptoms.find(s => s.name === symptom.name))
+                .map((symptom) => (
+                  <MenuItem key={symptom.id} value={symptom.name}>
+                    {symptom.name}
+                  </MenuItem>
+                ))}
+            </Select>
+          </FormControl>
+
+          <Button
+            variant="contained"
+            onClick={handleAddSymptom}
+            disabled={!currentSymptom || selectedSymptoms.length >= 3}
+            startIcon={<AddIcon />}
+            fullWidth
+            sx={{
+              mt: 2,
+              py: 1.5,
+              borderRadius: 2,
+              background: 'linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)',
+              boxShadow: '0 3px 5px 2px rgba(33, 203, 243, .3)',
+              textTransform: 'none',
+              fontSize: '1rem',
+              '&:hover': {
+                background: 'linear-gradient(45deg, #1976D2 30%, #1CA7D2 90%)',
+              }
+            }}
+          >
+            Add Symptom
+          </Button>
+        </Box>
+
+        <Box sx={{ 
+          display: 'flex', 
+          flexWrap: 'wrap', 
+          gap: 1, 
+          mb: 4, 
+          minHeight: '60px',
+          alignItems: 'center'
+        }}>
+          {selectedSymptoms.map((symptom) => (
+            <Chip
+              key={symptom.name}
+              label={symptom.name}
+              onDelete={() => handleRemoveSymptom(symptom.name)}
+              color="primary"
+              sx={{
+                borderRadius: '16px',
+                py: 2.5,
+                px: 1,
+                fontSize: '0.95rem',
+                fontWeight: 500,
+                '& .MuiChip-deleteIcon': {
+                  color: 'white',
+                  '&:hover': { color: '#ff4444' }
+                }
+              }}
+            />
+          ))}
+        </Box>
+
+        <Button
+          variant="contained"
+          onClick={handleCheckSymptoms}
+          disabled={selectedSymptoms.length !== 3 || loading}
+          startIcon={loading ? <CircularProgress size={20} color="inherit" /> : <SearchIcon />}
+          fullWidth
+          sx={{
+            py: 2,
+            borderRadius: 2,
+            fontSize: '1.1rem',
+            fontWeight: 600,
+            textTransform: 'none',
+            background: selectedSymptoms.length === 3 
+              ? 'linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)'
+              : '#e0e0e0',
+            boxShadow: '0 3px 5px 2px rgba(33, 203, 243, .3)',
+            '&:hover': {
+              background: 'linear-gradient(45deg, #1976D2 30%, #1CA7D2 90%)',
+            }
+          }}
+        >
+          {loading ? 'Analyzing Symptoms...' : 'Check Possible Conditions'}
+        </Button>
+
+        {illnesses.length > 0 && (
+          <Fade in>
+            <Box sx={{ mt: 5 }}>
+              <Typography 
+                variant="h5" 
+                sx={{ 
+                  mb: 3,
+                  fontWeight: 600,
+                  color: theme.palette.primary.main,
+                  textAlign: 'center'
+                }}
+              >
+                Possible Conditions
+              </Typography>
+              <List>
+                {illnesses.map((illness, index) => (
+                  <ListItem
+                    key={index}
+                    sx={{
+                      mb: 2,
+                      borderRadius: 2,
+                      bgcolor: 'rgba(33, 150, 243, 0.04)',
+                      transition: 'all 0.3s ease',
+                      '&:hover': {
+                        bgcolor: 'rgba(33, 150, 243, 0.08)',
+                        transform: 'translateX(8px)'
+                      }
+                    }}
+                  >
+                    <ListItemText
+                      primary={illness}
+                      primaryTypographyProps={{
+                        fontWeight: 500,
+                        color: theme.palette.primary.dark,
+                        fontSize: '1.1rem'
+                      }}
+                    />
+                  </ListItem>
+                ))}
+              </List>
+            </Box>
+          </Fade>
+        )}
+      </Paper>
+    </Container>
   );
 };
 
