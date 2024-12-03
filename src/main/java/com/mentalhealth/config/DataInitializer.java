@@ -144,7 +144,79 @@ public class DataInitializer implements CommandLineRunner {
                 Arrays.asList("social withdrawal", "nervousness", "sweating")),
             createIllness("Mental Fatigue",
                 "Exhaustion affecting cognition",
-                Arrays.asList("fatigue", "racing thoughts", "poor concentration"))
+                Arrays.asList("fatigue", "racing thoughts", "poor concentration")),
+
+            // Fatigue-based combinations
+            createIllness("Chronic Fatigue",
+                "Persistent exhaustion condition",
+                Arrays.asList("fatigue", "sleep problems", "poor concentration")),
+            createIllness("Physical Exhaustion",
+                "Body-focused fatigue condition",
+                Arrays.asList("fatigue", "shortness of breath", "sweating")),
+            createIllness("Mental Exhaustion",
+                "Cognitive fatigue syndrome",
+                Arrays.asList("fatigue", "racing thoughts", "anxiety")),
+            createIllness("Social Fatigue",
+                "Exhaustion from social interaction",
+                Arrays.asList("fatigue", "social withdrawal", "irritability")),
+
+            // Nervousness-based combinations
+            createIllness("Nervous Exhaustion",
+                "Physical manifestation of nervousness",
+                Arrays.asList("nervousness", "fatigue", "sweating")),
+            createIllness("Nervous Tension",
+                "Mental manifestation of nervousness",
+                Arrays.asList("nervousness", "chest pain", "racing thoughts")),
+            createIllness("Social Nervousness",
+                "Nervousness in social settings",
+                Arrays.asList("nervousness", "social withdrawal", "poor concentration")),
+            createIllness("Acute Nervousness",
+                "Sudden onset of nervous symptoms",
+                Arrays.asList("nervousness", "shortness of breath", "anxiety")),
+
+            // Racing thoughts combinations
+            createIllness("Thought Racing Syndrome",
+                "Persistent racing thoughts condition",
+                Arrays.asList("racing thoughts", "sleep problems", "anxiety")),
+            createIllness("Cognitive Rush",
+                "Overwhelming thought patterns",
+                Arrays.asList("racing thoughts", "chest pain", "sweating")),
+            createIllness("Mental Overload",
+                "Excessive mental activity",
+                Arrays.asList("racing thoughts", "irritability", "poor concentration")),
+
+            // Physical symptom combinations
+            createIllness("Physical Tension",
+                "Body-focused stress condition",
+                Arrays.asList("chest pain", "shortness of breath", "irritability")),
+            createIllness("Somatic Stress",
+                "Physical manifestation of stress",
+                Arrays.asList("sweating", "chest pain", "fatigue")),
+            createIllness("Body Response",
+                "Physical anxiety response",
+                Arrays.asList("shortness of breath", "sweating", "nervousness")),
+
+            // Social symptom combinations
+            createIllness("Social Isolation",
+                "Severe social withdrawal pattern",
+                Arrays.asList("social withdrawal", "sleep problems", "chest pain")),
+            createIllness("Social Tension",
+                "Physical symptoms in social settings",
+                Arrays.asList("social withdrawal", "shortness of breath", "racing thoughts")),
+            createIllness("Social Exhaustion",
+                "Fatigue from social situations",
+                Arrays.asList("social withdrawal", "fatigue", "poor concentration")),
+
+            // Concentration-based combinations
+            createIllness("Focus Deficit",
+                "Difficulty maintaining concentration",
+                Arrays.asList("poor concentration", "anxiety", "chest pain")),
+            createIllness("Attention Strain",
+                "Stress affecting concentration",
+                Arrays.asList("poor concentration", "shortness of breath", "nervousness")),
+            createIllness("Mental Fog",
+                "Clouded thinking and concentration",
+                Arrays.asList("poor concentration", "fatigue", "sweating"))
         );
         
         illnessRepository.saveAll(illnesses);
