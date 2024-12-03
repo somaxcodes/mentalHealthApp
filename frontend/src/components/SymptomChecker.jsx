@@ -91,8 +91,9 @@ const SymptomChecker = () => {
           p: { xs: 3, md: 5 },
           mt: 4,
           borderRadius: 3,
-          background: 'linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%)',
-          boxShadow: '0 10px 40px rgba(0,0,0,0.1)'
+          background: 'rgba(255, 255, 255, 0.9)',
+          backdropFilter: 'blur(10px)',
+          boxShadow: '0 10px 40px rgba(0,0,0,0.2)'
         }}
       >
         <Box sx={{ textAlign: 'center', mb: 5 }}>
