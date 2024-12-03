@@ -24,12 +24,15 @@ public class SymptomCheckerController {
 
     @PostMapping("/check")
     public ResponseEntity<?> checkSymptoms(@RequestBody List<Symptom> symptoms) {
-        if (symptoms.size() < 3) {
+        System.out.println("Received request with symptoms: " + symptoms);
+        
+        if (symptoms.size() != 3) {
             return ResponseEntity.badRequest()
-                .body("Please select at least 3 symptoms for accurate diagnosis");
+                .body("Please select exactly 3 symptoms");
         }
         
         List<String> results = symptomCheckerService.checkSymptoms(symptoms);
+        System.out.println("Returning results: " + results);
         return ResponseEntity.ok(results);
     }
 

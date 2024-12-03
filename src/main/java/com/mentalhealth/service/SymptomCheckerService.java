@@ -23,22 +23,41 @@ public class SymptomCheckerService {
     private SymptomRepository symptomRepository;
 
     public List<String> checkSymptoms(List<Symptom> symptoms) {
+        System.out.println("Received symptoms to check: " + symptoms);
+        
         List<String> probableIllnesses = new ArrayList<>();
         List<Illness> allIllnesses = illnessRepository.findAll();
-        Set<String> symptomNames = symptoms.stream()
-            .map(s -> s.getName().toLowerCase())
+        
+        // Convert input symptoms to lowercase for matching
+        Set<String> inputSymptoms = symptoms.stream()
+            .map(s -> s.getName().trim().toLowerCase())
             .collect(Collectors.toSet());
         
+        System.out.println("Looking for symptoms: " + inputSymptoms);
+
         for (Illness illness : allIllnesses) {
-            long matchingSymptoms = illness.getSymptoms().stream()
-                .map(String::toLowerCase)
-                .filter(symptomNames::contains)
+            // Convert illness symptoms to lowercase for matching
+            Set<String> illnessSymptoms = illness.getSymptoms().stream()
+                .map(s -> s.trim().toLowerCase())
+                .collect(Collectors.toSet());
+            
+            System.out.println("Checking " + illness.getName() + 
+                             " with symptoms: " + illnessSymptoms);
+
+            // Count how many symptoms match
+            long matchCount = illnessSymptoms.stream()
+                .filter(inputSymptoms::contains)
                 .count();
             
-            if (matchingSymptoms >= 2) {
-                probableIllnesses.add(illness.getName() + " - " + illness.getDescription());
+            System.out.println("Found " + matchCount + " matching symptoms");
+
+            // If 2 or more symptoms match, add to results
+            if (matchCount >= 2) {
+                probableIllnesses.add(illness.getName());
             }
         }
+
+        System.out.println("Found matching illnesses: " + probableIllnesses);
         return probableIllnesses;
     }
 
