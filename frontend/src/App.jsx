@@ -9,6 +9,7 @@ function App() {
       <Box
         sx={{
           minHeight: '100vh',
+          minWidth: '100vw',
           width: '100%',
           display: 'flex',
           justifyContent: 'center',
