@@ -1,0 +1,11 @@
+/Users/siddharthsahu/mentalHealthApp/src/main/java/com/mentalhealth/model/JournalEntry.java
+/Users/siddharthsahu/mentalHealthApp/src/main/java/com/mentalhealth/service/JournalService.java
+/Users/siddharthsahu/mentalHealthApp/src/main/java/com/mentalhealth/controller/JournalController.java
+/Users/siddharthsahu/mentalHealthApp/src/main/java/com/mentalhealth/repository/IllnessRepository.java
+/Users/siddharthsahu/mentalHealthApp/src/main/java/com/mentalhealth/MentalHealthAppApplication.java
+/Users/siddharthsahu/mentalHealthApp/src/main/java/com/mentalhealth/service/SymptomCheckerService.java
+/Users/siddharthsahu/mentalHealthApp/src/main/java/com/mentalhealth/model/Symptom.java
+/Users/siddharthsahu/mentalHealthApp/src/main/java/com/mentalhealth/model/Illness.java
+/Users/siddharthsahu/mentalHealthApp/src/main/java/com/mentalhealth/repository/SymptomRepository.java
+/Users/siddharthsahu/mentalHealthApp/src/main/java/com/mentalhealth/controller/SymptomCheckerController.java
+/Users/siddharthsahu/mentalHealthApp/src/main/java/com/mentalhealth/repository/JournalEntryRepository.java
