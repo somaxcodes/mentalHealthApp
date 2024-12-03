@@ -21,6 +21,9 @@ import MedicalServicesIcon from '@mui/icons-material/MedicalServices';
 import AddIcon from '@mui/icons-material/Add';
 import SearchIcon from '@mui/icons-material/Search';
 import axios from 'axios';
+import { motion } from 'framer-motion';
+import PsychologyIcon from '@mui/icons-material/Psychology';
+import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
 
 const SymptomChecker = () => {
   const theme = useTheme();
@@ -85,38 +88,51 @@ const SymptomChecker = () => {
 
   return (
     <Container maxWidth="md">
-      <Paper 
-        elevation={6} 
-        sx={{ 
+      <Paper
+        component={motion.div}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        elevation={6}
+        sx={{
           p: { xs: 3, md: 5 },
-          mt: 4,
-          borderRadius: 3,
-          background: 'rgba(255, 255, 255, 0.9)',
+          borderRadius: 4,
+          background: 'rgba(255, 255, 255, 0.95)',
           backdropFilter: 'blur(10px)',
-          boxShadow: '0 10px 40px rgba(0,0,0,0.2)'
+          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2)',
         }}
       >
         <Box sx={{ textAlign: 'center', mb: 5 }}>
-          <MedicalServicesIcon 
-            sx={{ 
-              fontSize: 50, 
-              color: theme.palette.primary.main,
-              mb: 2 
-            }} 
+          <PsychologyIcon
+            sx={{
+              fontSize: 60,
+              color: 'primary.main',
+              mb: 2,
+              animation: 'pulse 2s infinite',
+            }}
           />
-          <Typography 
-            variant="h3" 
+          <Typography
+            variant="h3"
             sx={{
               fontWeight: 700,
               background: 'linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)',
               backgroundClip: 'text',
               textFillColor: 'transparent',
-              mb: 2
+              mb: 2,
+              fontSize: { xs: '2rem', sm: '2.5rem', md: '3rem' },
             }}
           >
             Mental Health Checker
           </Typography>
-          <Typography variant="h6" color="text.secondary">
+          <Typography
+            variant="h6"
+            sx={{
+              color: 'text.secondary',
+              fontWeight: 400,
+              maxWidth: '600px',
+              mx: 'auto',
+            }}
+          >
             Select exactly 3 symptoms ({selectedSymptoms.length}/3)
           </Typography>
         </Box>
@@ -143,10 +159,17 @@ const SymptomChecker = () => {
               displayEmpty
               disabled={selectedSymptoms.length >= 3}
               sx={{
-                borderRadius: 2,
                 '& .MuiOutlinedInput-notchedOutline': {
-                  borderColor: 'rgba(0,0,0,0.1)'
-                }
+                  borderColor: 'rgba(0,0,0,0.1)',
+                  borderRadius: 2,
+                },
+                '& .MuiSelect-select': {
+                  py: 1.5,
+                },
+                '&:hover .MuiOutlinedInput-notchedOutline': {
+                  borderColor: 'primary.main',
+                },
+                transition: 'all 0.3s ease',
               }}
             >
               <MenuItem value="" disabled>
@@ -205,10 +228,16 @@ const SymptomChecker = () => {
                 px: 1,
                 fontSize: '0.95rem',
                 fontWeight: 500,
+                background: 'linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)',
+                boxShadow: '0 2px 8px rgba(33, 150, 243, 0.3)',
                 '& .MuiChip-deleteIcon': {
                   color: 'white',
-                  '&:hover': { color: '#ff4444' }
-                }
+                  transition: 'all 0.2s ease',
+                  '&:hover': {
+                    color: '#ff4444',
+                    transform: 'scale(1.1)',
+                  },
+                },
               }}
             />
           ))}
@@ -256,15 +285,21 @@ const SymptomChecker = () => {
                 {illnesses.map((illness, index) => (
                   <ListItem
                     key={index}
+                    component={motion.div}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.3 }}
                     sx={{
                       mb: 2,
                       borderRadius: 2,
                       bgcolor: 'rgba(33, 150, 243, 0.04)',
                       transition: 'all 0.3s ease',
+                      border: '1px solid rgba(33, 150, 243, 0.1)',
                       '&:hover': {
                         bgcolor: 'rgba(33, 150, 243, 0.08)',
-                        transform: 'translateX(8px)'
-                      }
+                        transform: 'translateX(8px)',
+                        boxShadow: '0 4px 12px rgba(0,0,0,0.05)',
+                      },
                     }}
                   >
                     <ListItemText
