@@ -22,8 +22,6 @@ import AddIcon from '@mui/icons-material/Add';
 import SearchIcon from '@mui/icons-material/Search';
 import axios from 'axios';
 import { motion } from 'framer-motion';
-import PsychologyIcon from '@mui/icons-material/Psychology';
-import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
 
 const SymptomChecker = () => {
   const theme = useTheme();
@@ -87,7 +85,12 @@ const SymptomChecker = () => {
   };
 
   return (
-    <Container maxWidth="md">
+    <Container maxWidth="md" sx={{
+      background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
+      borderRadius: 4,
+      p: { xs: 3, md: 5 },
+      boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2)',
+    }}>
       <Paper
         component={motion.div}
         initial={{ opacity: 0, y: 20 }}
@@ -103,36 +106,26 @@ const SymptomChecker = () => {
         }}
       >
         <Box sx={{ textAlign: 'center', mb: 5 }}>
-          <PsychologyIcon
-            sx={{
-              fontSize: 60,
-              color: 'primary.main',
-              mb: 2,
-              animation: 'pulse 2s infinite',
-            }}
+          <MedicalServicesIcon 
+            sx={{ 
+              fontSize: 50, 
+              color: theme.palette.primary.main,
+              mb: 2 
+            }} 
           />
-          <Typography
-            variant="h3"
+          <Typography 
+            variant="h3" 
             sx={{
               fontWeight: 700,
               background: 'linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)',
               backgroundClip: 'text',
               textFillColor: 'transparent',
-              mb: 2,
-              fontSize: { xs: '2rem', sm: '2.5rem', md: '3rem' },
+              mb: 2
             }}
           >
             Mental Health Checker
           </Typography>
-          <Typography
-            variant="h6"
-            sx={{
-              color: 'text.secondary',
-              fontWeight: 400,
-              maxWidth: '600px',
-              mx: 'auto',
-            }}
-          >
+          <Typography variant="h6" color="text.secondary">
             Select exactly 3 symptoms ({selectedSymptoms.length}/3)
           </Typography>
         </Box>
@@ -159,17 +152,10 @@ const SymptomChecker = () => {
               displayEmpty
               disabled={selectedSymptoms.length >= 3}
               sx={{
+                borderRadius: 2,
                 '& .MuiOutlinedInput-notchedOutline': {
-                  borderColor: 'rgba(0,0,0,0.1)',
-                  borderRadius: 2,
-                },
-                '& .MuiSelect-select': {
-                  py: 1.5,
-                },
-                '&:hover .MuiOutlinedInput-notchedOutline': {
-                  borderColor: 'primary.main',
-                },
-                transition: 'all 0.3s ease',
+                  borderColor: 'rgba(0,0,0,0.1)'
+                }
               }}
             >
               <MenuItem value="" disabled>
@@ -230,6 +216,11 @@ const SymptomChecker = () => {
                 fontWeight: 500,
                 background: 'linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)',
                 boxShadow: '0 2px 8px rgba(33, 150, 243, 0.3)',
+                transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+                '&:hover': {
+                  transform: 'scale(1.05)',
+                  boxShadow: '0 4px 12px rgba(33, 150, 243, 0.5)',
+                },
                 '& .MuiChip-deleteIcon': {
                   color: 'white',
                   transition: 'all 0.2s ease',
@@ -259,8 +250,10 @@ const SymptomChecker = () => {
               ? 'linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)'
               : '#e0e0e0',
             boxShadow: '0 3px 5px 2px rgba(33, 203, 243, .3)',
+            transition: 'background 0.3s ease, box-shadow 0.3s ease',
             '&:hover': {
               background: 'linear-gradient(45deg, #1976D2 30%, #1CA7D2 90%)',
+              boxShadow: '0 5px 15px rgba(33, 203, 243, .5)',
             }
           }}
         >
@@ -285,21 +278,15 @@ const SymptomChecker = () => {
                 {illnesses.map((illness, index) => (
                   <ListItem
                     key={index}
-                    component={motion.div}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.3 }}
                     sx={{
                       mb: 2,
                       borderRadius: 2,
                       bgcolor: 'rgba(33, 150, 243, 0.04)',
                       transition: 'all 0.3s ease',
-                      border: '1px solid rgba(33, 150, 243, 0.1)',
                       '&:hover': {
                         bgcolor: 'rgba(33, 150, 243, 0.08)',
-                        transform: 'translateX(8px)',
-                        boxShadow: '0 4px 12px rgba(0,0,0,0.05)',
-                      },
+                        transform: 'translateX(8px)'
+                      }
                     }}
                   >
                     <ListItemText
