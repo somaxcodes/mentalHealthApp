@@ -86,7 +86,7 @@ const SymptomChecker = () => {
 
   return (
     <Container maxWidth="md" sx={{
-      background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
+      background: 'linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%)',
       borderRadius: 4,
       p: { xs: 3, md: 5 },
       boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2)',
@@ -117,7 +117,7 @@ const SymptomChecker = () => {
             variant="h3" 
             sx={{
               fontWeight: 700,
-              background: 'linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)',
+              background: 'linear-gradient(45deg, #6a11cb 30%, #2575fc 90%)',
               backgroundClip: 'text',
               textFillColor: 'transparent',
               mb: 2
@@ -214,12 +214,12 @@ const SymptomChecker = () => {
                 px: 1,
                 fontSize: '0.95rem',
                 fontWeight: 500,
-                background: 'linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)',
-                boxShadow: '0 2px 8px rgba(33, 150, 243, 0.3)',
+                background: 'linear-gradient(45deg, #6a11cb 30%, #2575fc 90%)',
+                boxShadow: '0 2px 8px rgba(106, 17, 203, 0.3)',
                 transition: 'transform 0.2s ease, box-shadow 0.2s ease',
                 '&:hover': {
                   transform: 'scale(1.05)',
-                  boxShadow: '0 4px 12px rgba(33, 150, 243, 0.5)',
+                  boxShadow: '0 4px 12px rgba(106, 17, 203, 0.5)',
                 },
                 '& .MuiChip-deleteIcon': {
                   color: 'white',
@@ -247,13 +247,13 @@ const SymptomChecker = () => {
             fontWeight: 600,
             textTransform: 'none',
             background: selectedSymptoms.length === 3 
-              ? 'linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)'
+              ? 'linear-gradient(45deg, #6a11cb 30%, #2575fc 90%)'
               : '#e0e0e0',
-            boxShadow: '0 3px 5px 2px rgba(33, 203, 243, .3)',
+            boxShadow: '0 3px 5px 2px rgba(106, 17, 203, .3)',
             transition: 'background 0.3s ease, box-shadow 0.3s ease',
             '&:hover': {
-              background: 'linear-gradient(45deg, #1976D2 30%, #1CA7D2 90%)',
-              boxShadow: '0 5px 15px rgba(33, 203, 243, .5)',
+              background: 'linear-gradient(45deg, #5a0fc8 30%, #1f6efc 90%)',
+              boxShadow: '0 5px 15px rgba(106, 17, 203, .5)',
             }
           }}
         >
